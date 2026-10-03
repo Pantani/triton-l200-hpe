@@ -14,6 +14,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { margin: 0; background: var(--ink); color: var(--paper); font: 400 17px/1.55 var(--body); }
 img { display: block; max-width: 100%; }
+picture { display: block; min-width: 0; }
 a { color: inherit; }
 h1, h2 { margin: 0; font-family: var(--display); font-weight: 700; text-transform: uppercase; line-height: .92; }
 h2 { font-size: clamp(44px, 6vw, 64px); }
@@ -41,10 +42,12 @@ h2 { font-size: clamp(44px, 6vw, 64px); }
 
 .hero { position: relative; min-height: min(820px, 92vh); display: flex; overflow: hidden; }
 .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
+.hero-picture { position: absolute; inset: 0; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,19,20,.1) 25%, rgba(18,19,20,.96) 90%); }
 .hero-body { position: relative; z-index: 1; width: 100%; align-self: flex-end; padding-top: 160px; padding-bottom: 64px; display: grid; gap: 24px; }
 .eyebrow { margin: 0; font: 500 14px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
 h1 { font-size: clamp(60px, 10vw, 120px); }
+.hero-location { display: block; margin-top: 16px; font: 500 clamp(20px, 3vw, 32px)/1.25 var(--body); text-transform: none; }
 .lede { margin: 0; max-width: 560px; font-size: 19px; color: var(--soft); }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 8px; }
 .price { margin: 0; font: 600 56px/1 var(--display); }
@@ -67,6 +70,7 @@ h1 { font-size: clamp(60px, 10vw, 120px); }
 .section-head p { margin: 0; max-width: 440px; color: var(--muted); }
 .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; grid-auto-flow: dense; gap: 8px; }
 .gallery a { overflow: hidden; border-radius: 4px; }
+.gallery picture { height: 100%; }
 .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
 .gallery a:hover img { transform: scale(1.04); }
 .gallery .big { grid-column: span 2; grid-row: span 2; }
@@ -83,6 +87,9 @@ h1 { font-size: clamp(60px, 10vw, 120px); }
 .faq details { padding: 22px 0; border-bottom: 1px solid var(--line); }
 .faq summary { font-size: 19px; font-weight: 500; cursor: pointer; }
 .faq p { margin: 12px 0 0; color: var(--soft); }
+.location { padding-top: 0; }
+.location h2 { max-width: 900px; }
+.location p { max-width: 800px; color: var(--soft); }
 
 .cta { background: var(--accent); color: var(--ink); }
 .cta .eyebrow { color: var(--ink); }
@@ -104,6 +111,11 @@ h1 { font-size: clamp(60px, 10vw, 120px); }
   .gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
   .price { font-size: 44px; }
   .hero-actions .btn { flex: 1 1 100%; }
+}
+@media (max-width: 390px) {
+  h1 { font-size: 48px; }
+  .hero-body { padding-top: 112px; padding-bottom: 48px; gap: 18px; }
+  .hero-location { font-size: 18px; margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
