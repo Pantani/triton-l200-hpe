@@ -22,7 +22,7 @@ The chosen approach keeps the apartment site's editorial hierarchy and direct ow
 
 Use these owner-provided facts as the sole source for public claims:
 
-- Mitsubishi L200 Triton Sport HPE-S, 2019/2020, black, diesel, 2.4 turbo, 2,442 cm³, 190 cv, double cab, five seats.
+- Mitsubishi L200 Triton Sport HPE-S, 2019/2020, black, diesel, 2.4 turbo, 2,442 cm³, 190 cv, double cab with an open-bed body style, five seats.
 - Approximately 53,500 km. The current odometer photo reads 53,459 km, so the headline can say `53,5 mil km` or `cerca de 53.500 km`; do not present the rounded figure as an exact photo reading.
 - All revisions performed and current; well cared for; all-terrain tires practically new.
 - Original factory JBL sound system, active subwoofer, and installed ShiftPower throttle-response controller. Explain ShiftPower as changing accelerator-pedal response; never claim extra engine power.
