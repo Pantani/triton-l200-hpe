@@ -29,4 +29,4 @@ The root `CRLV-e.pdf` is ignored by Git and is never included in the Pages artif
 
 ## Publishing
 
-Push updates to `main`. The workflow verifies the site, uploads `site/`, and deploys it to GitHub Pages. The intended project URL is `https://pantani.github.io/triton-l200-hpe/`; confirm the URL after the first successful deployment.
+Push updates to `main`. The workflow verifies the site, uploads `site/`, and deploys it to GitHub Pages at <https://pantani.github.io/triton-l200-hpe/>.
