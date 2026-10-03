@@ -4,7 +4,7 @@
 
 Build a one-page, mobile-first GitHub Pages site for the private sale of a black Mitsubishi L200 Triton Sport HPE-S 2019/2020. The page should let a buyer assess the vehicle quickly and contact the owner on the confirmed public WhatsApp number. This document defines the proposed site; implementation and publication follow review.
 
-The repository currently has no website. It is public and already tracks 84 HEIC originals in `photos/`. The root `CRLV-e.pdf` is local and ignored by Git. A separate, untracked `listing-photos/` folder contains 11 prepared listing photos. GitHub Pages has not been configured for this repository as of October 2, 2026 (the Pages API returned 404).
+The repository currently has no website. It is public and its Git history contains 84 HEIC originals in `photos/`. The owner curated that folder in the working tree: 17 files remain and 67 deletions have not been committed. The root `CRLV-e.pdf` is local and ignored by Git. GitHub Pages has not been configured for this repository as of October 2, 2026 (the Pages API returned 404).
 
 ## Approach
 
@@ -23,7 +23,7 @@ The chosen approach keeps the apartment site's editorial hierarchy and direct ow
 Use these owner-provided facts as the sole source for public claims:
 
 - Mitsubishi L200 Triton Sport HPE-S, 2019/2020, black, diesel, 2.4 turbo, 2,442 cm³, 190 cv, double cab, five seats.
-- Approximately 53,500 km. The provided odometer photo reads 53,536 km, so the headline can say `53,5 mil km` or `cerca de 53.500 km`; do not present the rounded figure as an exact photo reading.
+- Approximately 53,500 km. The current odometer photo reads 53,459 km, so the headline can say `53,5 mil km` or `cerca de 53.500 km`; do not present the rounded figure as an exact photo reading.
 - All revisions performed and current; well cared for; all-terrain tires practically new.
 - Original factory JBL sound system, active subwoofer, and installed ShiftPower throttle-response controller. Explain ShiftPower as changing accelerator-pedal response; never claim extra engine power.
 - No auction history and no sinistro, as confirmed by the owner. Trades are not accepted.
@@ -45,9 +45,25 @@ The page should remain useful with JavaScript disabled: essential copy, images, 
 
 ## Photos and privacy
 
-Use only derived assets in `site/assets/`, not `photos/` HEIC originals or `listing-photos/` source files. Resize and compress deterministically, normalize orientation, strip embedded metadata, and inspect the final pixels. Preserve vehicle appearance and the odometer reading; do not use generative retouching.
+Use only derived assets in `site/assets/`, not `photos/` HEIC originals. Resize and compress deterministically, strip embedded metadata, and inspect the final pixels. Do not rotate any image or apply automatic orientation normalization. If a derived image appears sideways in the browser, exclude it and request a replacement rather than rotating it. Preserve vehicle appearance and the odometer reading. The exact frame and any redaction must be reviewed before an image is published.
 
-The prepared front three-quarter photo has its plate masked and is the preferred cover. The full-side photo shows a recognizable house facade despite a blurred number, so exclude it unless a tighter crop removes the location context. The rear three-quarter photo includes a reflection of a person; inspect/crop it before publication. Several other photos are sideways in their actual pixels and must be rotated in the derived files. The odometer image shows 53,536 km. Detail images of the rear seat, subwoofer, ShiftPower, tire, and bed are available. A new rear view or clean interior-wide photo would improve the gallery, but the site should not depend on unprovided photos.
+### Revised gallery selection
+
+| Order | Source | Purpose | Preparation before publishing |
+| --- | --- | --- | --- |
+| 1 | `IMG_6686.HEIC` | Front three-quarter cover | Mask the vehicle plate and crop surrounding street details. |
+| 2 | `IMG_6679.HEIC` | Complete side profile | Crop the top of the frame to remove the visible building number. |
+| 3 | `IMG_6682.HEIC` | Rear three-quarter view | Mask the vehicle plate and crop out the building number and the neighboring car's plate. |
+| 4 | `IMG_6685.HEIC` | Second front/side view | Crop surrounding cars and check the final composition around the tree. |
+| 5 | `IMG_6699.HEIC` | Rear-seat view | Use as-is after metadata removal and final pixel inspection. |
+| 6 | `IMG_6626.HEIC` | Odometer | Preserve the photographed 53,459 km reading. |
+| 7 | `IMG_6644.HEIC` | Tire tread and wheel | Use as-is after metadata removal. |
+| 8 | `IMG_6645.HEIC` | Tire sidewall and wheel | Include only if it adds useful detail beyond the previous tire photo. |
+| 9 | `IMG_6697.HEIC` | JBL head unit | Crop below the console to remove a business card/bag with contact details. |
+| 10 | `IMG_6628.HEIC` | Active subwoofer | Use as-is after metadata removal. |
+| 11 | `IMG_6625.HEIC` | ShiftPower control | Use as-is after metadata removal. |
+
+`IMG_6665.HEIC` exposes the building number; `IMG_6669.HEIC` and `IMG_6684.HEIC` show people and vehicle plates. `IMG_6690.HEIC` and `IMG_6702.HEIC` show a hand and do not improve the sales story. `IMG_6698.HEIC` is an interior-wide shot but has a prominent bag with third-party contact details. A new clean interior-wide shot and a clear photo of the open pickup bed would improve the page, but the site should not depend on them. These excluded files remain untouched.
 
 Never publish the CRLV PDF, plate number, CPF, RENAVAM, complete VIN, QR code, security code, personal address, or document images. Exclude private negotiation numbers from all public files, metadata, and source comments. Check the final Pages artifact contents before deployment.
 
@@ -59,6 +75,6 @@ The project URL is expected to follow GitHub's project-site form, `https://panta
 
 ## Delivery and verification
 
-Implement `site/index.html`, `site/styles.css`, optional small `site/app.js`, selected optimized assets, an English README, and the Pages workflow. Check desktop and mobile rendering, all anchors and WhatsApp links, gallery keyboard use, orientation and privacy of every delivered image, copy against the fact list, artifact contents, and the actual Pages URL. Publish only after those checks and review of the finished page. GitHub's official Pages documentation confirms a custom workflow can upload a selected directory with `actions/upload-pages-artifact` and deploy it with `actions/deploy-pages`.
+Implement `site/index.html`, `site/styles.css`, optional small `site/app.js`, selected optimized assets, an English README, and the Pages workflow. Check desktop and mobile rendering, all anchors and WhatsApp links, gallery keyboard use, original orientation and privacy of every delivered image, copy against the fact list, artifact contents, and the actual Pages URL. Publish only after those checks and review of the finished page. GitHub's official Pages documentation confirms a custom workflow can upload a selected directory with `actions/upload-pages-artifact` and deploy it with `actions/deploy-pages`.
 
 Reference: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
