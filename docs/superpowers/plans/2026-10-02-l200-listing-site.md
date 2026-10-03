@@ -4,9 +4,9 @@
 
 **Goal:** Publish a factual, mobile-friendly private-sale site for the owner's L200 on GitHub Pages.
 
-**Architecture:** A static `site/` directory holds HTML, CSS, and prepared JPEG assets. A GitHub Actions workflow uploads only this directory to Pages. Python standard-library tests inspect the exact public directory before deployment.
+**Architecture:** A static `site/` directory holds HTML, CSS, and prepared JPEG assets. A GitHub Actions workflow uploads only this directory to Pages. Python `unittest` checks with Pillow inspect the exact public directory before deployment.
 
-**Tech Stack:** HTML5, CSS, Python `unittest`, GitHub Actions/Pages. No JavaScript runtime or frontend build dependency.
+**Tech Stack:** HTML5, CSS, Python `unittest` and Pillow, GitHub Actions/Pages. No JavaScript runtime or frontend build dependency.
 
 **Spec:** `docs/superpowers/specs/2026-10-02-l200-listing-site-design.md`
 
@@ -39,20 +39,21 @@
 
 - [ ] **Step 1: Preserve the owner's curation.** Confirm the 17 current HEIC paths and stage only the files the owner deleted. Commit their deletions without restoring or altering remaining sources.
 - [ ] **Step 2: Start a worktree** at the resulting local commit; keep implementation changes isolated from `main`.
-- [ ] **Step 3: Write failing tests** for public asset boundaries and privacy. The tests require `site/index.html`, reject `.pdf`/`.heic` in `site/`, reject EXIF blocks in public JPEGs, require every local image reference to resolve, and reject a license-plate-shaped token in public text.
+- [ ] **Step 3: Write failing tests** for public asset boundaries and privacy. The tests require `site/index.html`, reject `.pdf`/`.heic` in `site/`, allow only the EXIF display-orientation tag in public JPEGs, require every local image reference to resolve, and reject a license-plate-shaped token in public text.
 
 ```python
 def test_public_directory_has_no_source_documents(self):
     forbidden = {".pdf", ".heic"}
     self.assertFalse([p for p in SITE.rglob("*") if p.suffix.lower() in forbidden])
 
-def test_public_jpegs_have_no_exif(self):
+def test_public_jpegs_keep_only_display_orientation(self):
     for image in SITE.rglob("*.jpg"):
-        self.assertNotIn(b"Exif\x00\x00", image.read_bytes(), image.name)
+        with Image.open(image) as photo:
+            self.assertLessEqual(set(photo.getexif()), {274})
 ```
 
 - [ ] **Step 4: Run** `rtk proxy python3 -m unittest discover -s tests -v`; confirm a failing test because `site/index.html` does not yet exist.
-- [ ] **Step 5: Export the exact selected gallery** from the spec into `site/assets/`. For each candidate, keep source orientation, produce a web-sized JPEG, remove metadata, and inspect the resulting pixels. Use the image-editing tool for the specific plate, building-number, or third-party-detail redactions listed in the spec; compare the result with the source to ensure the vehicle remains faithful and unrotated. Skip any image that cannot satisfy privacy, fidelity, and orientation constraints.
+- [ ] **Step 5: Export the exact selected gallery** from the spec into `site/assets/`. For each candidate, keep source orientation, produce a web-sized JPEG, remove metadata except the display-orientation tag, and inspect the resulting pixels. Apply deterministic plate masks and crops for the specific privacy details listed in the spec; compare the result with the source to ensure the vehicle remains faithful and unrotated. Skip any image that cannot satisfy privacy, fidelity, and orientation constraints.
 - [ ] **Step 6: Re-run the asset/privacy tests** and inspect every delivered image at its final size.
 
 ## Task 2: Page structure and visual design

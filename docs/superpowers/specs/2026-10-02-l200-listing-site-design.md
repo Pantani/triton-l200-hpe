@@ -4,11 +4,11 @@
 
 Build a one-page, mobile-first GitHub Pages site for the private sale of a black Mitsubishi L200 Triton Sport HPE-S 2019/2020. The page should let a buyer assess the vehicle quickly and contact the owner on the confirmed public WhatsApp number. This document defines the proposed site; implementation and publication follow review.
 
-The repository currently has no website. It is public and its Git history contains 84 HEIC originals in `photos/`. The owner curated that folder in the working tree: 17 files remain and 67 deletions have not been committed. The root `CRLV-e.pdf` is local and ignored by Git. GitHub Pages has not been configured for this repository as of October 2, 2026 (the Pages API returned 404).
+Before implementation, the repository had no website. It is public and its Git history contains 84 HEIC originals in `photos/`. The owner curated that folder: 17 files remain and 67 deletions were committed before site work began. The root `CRLV-e.pdf` is local and ignored by Git. GitHub Pages had not been configured as of the initial design review on October 2, 2026 (the Pages API returned 404).
 
 ## Approach
 
-Use a small static site in `site/`: semantic HTML, focused CSS, and minimal JavaScript for gallery behavior only. A GitHub Actions workflow should upload **only `site/`** as the Pages artifact. The workflow gives the public website a clear publication boundary, independent of the rest of the repository. The source repository itself remains public; the existing `photos/` Git history is a separate privacy concern and this site does not erase it.
+Use a small static site in `site/`: semantic HTML and focused CSS. Native image links provide full-size viewing without JavaScript. A GitHub Actions workflow should upload **only `site/`** as the Pages artifact. The workflow gives the public website a clear publication boundary, independent of the rest of the repository. The source repository itself remains public; the existing `photos/` Git history is a separate privacy concern and this site does not erase it.
 
 Alternatives considered:
 
@@ -45,7 +45,7 @@ The page should remain useful with JavaScript disabled: essential copy, images, 
 
 ## Photos and privacy
 
-Use only derived assets in `site/assets/`, not `photos/` HEIC originals. Resize and compress deterministically, strip embedded metadata, and inspect the final pixels. Do not rotate any image or apply automatic orientation normalization. If a derived image appears sideways in the browser, exclude it and request a replacement rather than rotating it. Preserve vehicle appearance and the odometer reading. The exact frame and any redaction must be reviewed before an image is published.
+Use only derived assets in `site/assets/`, not `photos/` HEIC originals. Resize and compress deterministically, retain only the EXIF display-orientation tag where needed, and inspect the final pixels. Do not rotate image pixels or apply automatic orientation normalization. Preserve vehicle appearance and the odometer reading. The exact frame and any redaction must be reviewed before an image is published.
 
 ### Revised gallery selection
 
@@ -54,16 +54,15 @@ Use only derived assets in `site/assets/`, not `photos/` HEIC originals. Resize 
 | 1 | `IMG_6686.HEIC` | Front three-quarter cover | Mask the vehicle plate and crop surrounding street details. |
 | 2 | `IMG_6679.HEIC` | Complete side profile | Crop the top of the frame to remove the visible building number. |
 | 3 | `IMG_6682.HEIC` | Rear three-quarter view | Mask the vehicle plate and crop out the building number and the neighboring car's plate. |
-| 4 | `IMG_6685.HEIC` | Second front/side view | Crop surrounding cars and check the final composition around the tree. |
-| 5 | `IMG_6699.HEIC` | Rear-seat view | Use as-is after metadata removal and final pixel inspection. |
-| 6 | `IMG_6626.HEIC` | Odometer | Preserve the photographed 53,459 km reading. |
-| 7 | `IMG_6644.HEIC` | Tire tread and wheel | Use as-is after metadata removal. |
-| 8 | `IMG_6645.HEIC` | Tire sidewall and wheel | Include only if it adds useful detail beyond the previous tire photo. |
-| 9 | `IMG_6697.HEIC` | JBL head unit | Crop below the console to remove a business card/bag with contact details. |
-| 10 | `IMG_6628.HEIC` | Active subwoofer | Use as-is after metadata removal. |
-| 11 | `IMG_6625.HEIC` | ShiftPower control | Use as-is after metadata removal. |
+| 4 | `IMG_6699.HEIC` | Rear-seat view | Use after metadata removal and final pixel inspection. |
+| 5 | `IMG_6626.HEIC` | Odometer | Preserve the photographed 53,459 km reading. |
+| 6 | `IMG_6644.HEIC` | Tire tread and wheel | Use after metadata removal. |
+| 7 | `IMG_6645.HEIC` | Tire sidewall and wheel | Include for additional wheel and tire detail. |
+| 8 | `IMG_6697.HEIC` | JBL head unit | Crop to remove third-party contact details. |
+| 9 | `IMG_6628.HEIC` | Active subwoofer | Use after metadata removal. |
+| 10 | `IMG_6625.HEIC` | ShiftPower control | Use after metadata removal. |
 
-`IMG_6665.HEIC` exposes the building number; `IMG_6669.HEIC` and `IMG_6684.HEIC` show people and vehicle plates. `IMG_6690.HEIC` and `IMG_6702.HEIC` show a hand and do not improve the sales story. `IMG_6698.HEIC` is an interior-wide shot but has a prominent bag with third-party contact details. A new clean interior-wide shot and a clear photo of the open pickup bed would improve the page, but the site should not depend on them. These excluded files remain untouched.
+`IMG_6685.HEIC` was excluded because the tree and background plates weaken its composition and privacy. `IMG_6665.HEIC` exposes the building number; `IMG_6669.HEIC` and `IMG_6684.HEIC` show people and vehicle plates. `IMG_6690.HEIC` and `IMG_6702.HEIC` show a hand and do not improve the sales story. `IMG_6698.HEIC` is an interior-wide shot but has a prominent bag with third-party contact details. A new clean interior-wide shot and a clear photo of the open pickup bed would improve the page, but the site should not depend on them. These excluded files remain untouched.
 
 Never publish the CRLV PDF, plate number, CPF, RENAVAM, complete VIN, QR code, security code, personal address, or document images. Exclude private negotiation numbers from all public files, metadata, and source comments. Check the final Pages artifact contents before deployment.
 
