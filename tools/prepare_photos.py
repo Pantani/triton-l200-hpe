@@ -34,6 +34,7 @@ PHOTOS = (
     Photo("IMG_6697.HEIC", "jbl-head-unit.jpg", (0, 0, 685, 900)),
     Photo("IMG_6628.HEIC", "active-subwoofer.jpg"),
     Photo("IMG_6625.HEIC", "shiftpower.jpg"),
+    Photo("IMG_6702.HEIC", "covered-bed.jpg"),
 )
 
 

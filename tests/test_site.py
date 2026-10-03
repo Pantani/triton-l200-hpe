@@ -9,6 +9,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
+SOURCE_PHOTOS = ROOT / "photos"
 HTML = SITE / "index.html"
 WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 
@@ -51,6 +52,14 @@ class PublicSiteTests(unittest.TestCase):
                 src = re.search(r'\bsrc="(assets/[^"]+)"', image)
                 self.assertIsNotNone(src)
                 self.assertTrue((SITE / src.group(1)).is_file())
+
+    def test_gallery_includes_every_source_photo(self):
+        html = self.read_html()
+        gallery = re.search(r'<div class="gallery">(.*?)</div>', html, re.DOTALL)
+        self.assertIsNotNone(gallery)
+        public_images = set(re.findall(r'<img\b[^>]*\bsrc="(assets/[^"]+)"', gallery.group(1)))
+        source_images = list(SOURCE_PHOTOS.glob("*.HEIC"))
+        self.assertEqual(len(public_images), len(source_images))
 
     def test_public_jpegs_keep_only_display_orientation(self):
         for image in SITE.rglob("*.jpg"):
