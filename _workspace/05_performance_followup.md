@@ -77,3 +77,31 @@ Fresh Lighthouse 13.5.0 against `http://localhost:8766/`, same mobile/desktop se
 | desktop | 96 | 100 | 100 | 100 | 362 | 1362 | 1809548 | 0.0004 |
 
 Mobile LCP improves 7.352→5.627s versus the previous final candidate, while preserving visible image detail; performance 75→79. This still is not a good mobile LCP lab result. Both runs use the intended hero source and have no failed accessibility/SEO checks. No new local blocker found. Parent reported root robots/sitemap deployment corrected and verified live; E01 domain/deployment/indexing acceptance remains coordinator-owned and must use fresh live evidence rather than this historical snapshot.
+
+## Deployed mobile baseline — separate public environment
+
+Producer: independent reviewer. State: **published navigation verified**, one public Lighthouse run completed. Coordinator reported deployment commit `14c91aa` and successful CI run `37103048725` with artifact byte parity; reviewer independently measured the published URL below, without repeating deployment mutation.
+
+URL: `https://pantani.xyz/triton-l200-hpe/`. Lighthouse fetch time `2026-10-03T06:28:47.122Z` (03:28:47 America/Sao_Paulo). Requested and final displayed URLs match. Lighthouse 13.5.0 default mobile simulation, same category flags as local runs. Report: `/tmp/l200-seo-published-mobile.json`. No runtime error, run warning, or failed/non-200 network request was reported.
+
+```sh
+rtk proxy npx --yes lighthouse https://pantani.xyz/triton-l200-hpe/ --quiet --chrome-flags=--headless --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/l200-seo-published-mobile.json --no-enable-error-reporting
+```
+
+| Published mobile metric | Result |
+| --- | ---: |
+| Performance | 99 |
+| Accessibility | 100 |
+| Best practices | 100 |
+| Automated SEO checks | 100 |
+| Simulated FCP | 943 ms |
+| Simulated LCP | 2,250 ms |
+| TBT | 0 ms |
+| CLS | 0.00262 |
+| Transfer | 1,517,229 bytes |
+
+The selected LCP element is the intended mobile hero crop, rendered 412×852 CSS pixels. Unthrottled observed LCP391ms is recorded separately from the simulated2,250ms result. This public navigation is a **new deployed baseline**, not a controlled before/after comparison with Python localhost; CDN delivery, protocol, caching and latency differ. Do not attribute the numerical gap from local5.627s to another source-code optimization.
+
+This one public lab run is in the good LCP range, but does not establish field Core Web Vitals or search ranking. Remaining diagnostics estimate image savings845KiB and cache-lifetime savings1,354KiB; do not silently degrade the approved full-photo experience to maximize a score. Public URL reachability is now verified by this run, superseding E01's earlier DNS-failure snapshot for this exact URL at this time. Search Console sitemap processing and actual index inclusion remain coordinator-owned separate checks; no SEO-category score proves either.
+
+Observed network protocols in this public run: h2.
