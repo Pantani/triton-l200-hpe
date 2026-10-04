@@ -59,6 +59,7 @@ class SEOTests(unittest.TestCase):
         self.assertEqual(set(product["@type"]), {"Product", "Car"})
         self.assertEqual(product["url"], CANONICAL)
         offer = product["offers"]
+        self.assertEqual(offer["price"], 150000)
         self.assertEqual(offer["url"], CANONICAL)
         self.assertEqual(offer["priceCurrency"], "BRL")
         self.assertEqual(offer["itemCondition"], "https://schema.org/UsedCondition")
