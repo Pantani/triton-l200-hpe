@@ -20,7 +20,7 @@ class PublicSiteTests(unittest.TestCase):
 
     def test_required_vehicle_facts_are_visible(self):
         html = self.read_html()
-        for fact in ("HPE-S", "2019/2020", "53,5 mil km", "R$ 150.000"):
+        for fact in ("HPE-S", "2019/2020", "53,5 mil km", "R$ 145.000"):
             with self.subTest(fact=fact):
                 self.assertIn(fact, html)
         self.assertEqual(len(re.findall(r"<h1\b", html)), 1)
